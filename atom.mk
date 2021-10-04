@@ -1,4 +1,6 @@
+
 LOCAL_PATH := $(call my-dir)
+mylocal := $(call my-dir)
 
 include $(CLEAR_VARS)
 
@@ -7,14 +9,11 @@ LOCAL_DESCRIPTION := libcap module
 
 LOCAL_EXPORT_LDLIBS = -lcap
 
-LOCAL_AUTOTOOLS_VERSION := 2.0.4
-LOCAL_AUTOTOOLS_CONFIGURE_ARGS := 
-LOCAL_AUTOTOOLS_CONFIGURE_ENV :=
+LOCAL_AUTOTOOLS_MAKE_BUILD_ARGS := CROSS_COMPILE=$(TARGET_CROSS) BUILD_CC=gcc
+LOCAL_AUTOTOOLS_MAKE_INSTALL_ARGS := lib=lib
 
-define _autotools-def-cmd-configure
-	rm -rf $(PRIVATE_OBJ_DIR)
-	cp -rf $(PRIVATE_SRC_DIR) $(PRIVATE_OBJ_DIR)
-	rm -f $(PRIVATE_OBJ_DIR)/atom.mk
+define LOCAL_AUTOTOOLS_CMD_CONFIGURE
+	cp -r $(mylocal)/*  $(call module-get-build-dir,libcap)/obj
 endef
 
 include $(BUILD_AUTOTOOLS)
